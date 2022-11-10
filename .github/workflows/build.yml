@@ -18,13 +18,17 @@ jobs:
   build:
     strategy:
       matrix:
-        runtime: [ linux-x64, linux-arm64, linux-arm, win-x64, win-arm64, osx-x64, osx-arm64 ]
+        runtime: [ linux-x64, linux-arm64, linux-ppc64le, linux-arm, win-x64, win-arm64, osx-x64, osx-arm64 ]
         include:
         - runtime: linux-x64
           os: ubuntu-latest
           devScript: ./dev.sh
 
         - runtime: linux-arm64
+          os: ubuntu-latest
+          devScript: ./dev.sh
+          
+        - runtime: linux-ppc64le
           os: ubuntu-latest
           devScript: ./dev.sh
 
@@ -86,7 +90,7 @@ jobs:
       run: |
         ${{ matrix.devScript }} test
       working-directory: src
-      if: matrix.runtime != 'linux-arm64' && matrix.runtime != 'linux-arm' && matrix.runtime != 'osx-arm64' && matrix.runtime != 'win-arm64'
+      if: matrix.runtime != 'linux-arm64' && matrix.runtime != 'linux-arm' && matrix.runtime != 'linux-ppc64le' && matrix.runtime != 'osx-arm64' && matrix.runtime != 'win-arm64'
 
     # Create runner package tar.gz/zip
     - name: Package Release
